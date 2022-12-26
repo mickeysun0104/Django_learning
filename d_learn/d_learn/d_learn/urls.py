@@ -16,6 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from myapp import views
+from music import views as mv
+from rest_framework.routers import DefaultRouter
+from django.conf.urls import include
+
+
+router = DefaultRouter()
+router.register(r'music', mv.MusicViewSet)
+print(router.urls)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +33,8 @@ urlpatterns = [
     path('hello/', views.hello_view),
     path('getName/<username>/', views.getOneByName), # 傳遞字串參數 username
     path('getAll/', views.getAll),
-    path('login/', views.login)
+    path('login/', views.login),
+    path('music/', mv.music_view),
+    path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
